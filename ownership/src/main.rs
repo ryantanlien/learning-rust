@@ -42,6 +42,17 @@ fn ownership() {
     let x = 5;
     
     makes_copy(x);
+
+    let mut s2 = String::from("hello");
+    calculate_length(&s2); //s2 borrows the value s2 basically like takes_and_gives_back_ownership
+
+    //change(&s); //This code produces a compile-time error as references are not mutable by default, use mutable references instead
+    correct_change(&mut s2); //Have to declare s2 as mutable and pass a mutable reference to the change
+
+    // let r1 = &mut s2;
+    // // let r2 = &mut s2; //cannot perform a mutable borrow more than once. prevents data races
+
+    // println!("{}, {}", r1, r2); //mutable borrows being used at the same time here -> compile time error 
 }
 
 fn takes_ownership(some_string: String) {
@@ -55,3 +66,35 @@ fn takes_and_gives_back_ownership(some_string: String) -> String {
 fn makes_copy(some_integer: i32) {
     println!("{}", some_integer);
 }
+
+fn return_tuple() {
+    let s1 = String::from("hello");
+    
+    let len = calculate_length(&s1); 
+    //The &s1 syntax creates a reference that refers to s1 but does not own it.
+    //Fairly similar to pointers in C++, but only the owner can drop it.
+
+    //The action of creating a reference is known as _borrowing_
+
+    println!("The length of '{}' is {}.", s1, len);
+}
+
+fn calculate_length(s: &String) -> usize {
+    s.len()
+}
+
+// fn change(some_string: &String) {
+//     some_string.push_str(", world");
+// }
+
+fn correct_change(some_string: &mut String) {
+    some_string.push_str(", world");
+}
+
+
+//Rust prevents dangling references at compile time
+// fn dangle() -> &String {
+//     let s = String::from("hello");
+
+//     &s //Dangles the reference as s is out of scope after the function
+// }
