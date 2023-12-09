@@ -91,10 +91,43 @@ fn correct_change(some_string: &mut String) {
     some_string.push_str(", world");
 }
 
-
 //Rust prevents dangling references at compile time
 // fn dangle() -> &String {
 //     let s = String::from("hello");
 
 //     &s //Dangles the reference as s is out of scope after the function
 // }
+
+fn slice() {
+    let mut s = String::from("hello world");
+
+    let word = first_word(&s); //word will get value 5;
+
+    s.clear(); //using the slice version of first_word now introduces a compilation error
+
+    println!("the first word is: {}", word);
+
+    //word still has the value 5 here, but there's no more string that 
+    //we could meaningfully use the value 5 with. word is now totally invalid.
+}
+
+fn first_word(s: &String) -> &str {
+    let bytes = s.as_bytes();
+   
+    // for (i, &item) in bytes.iter().enumerate() {
+    //     if item == b' ' {
+    //         return i;
+    //     }
+    // }
+ 
+    //s.len();
+    
+    //version with string slicing    
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[0..i]; //slice operator
+        }
+    }
+
+    &s[..]
+}
