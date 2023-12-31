@@ -33,6 +33,8 @@ fn main() {
 
     //for now all structs defined above own their own data, but its possible for structs to contain references, though requiring lifetimes.
     //More will be elaborated on in Chapter 10.
+
+    example_program_structs();
 }
 
 struct Color(i32, i32, i32);
@@ -46,4 +48,33 @@ struct User {
     username: String,
     email: String,
     sign_in_count: u64,
+}
+
+fn example_program_structs() {
+    
+    //an example of the derive trait where we print a struct on line 78
+    //essentially a debug print interface
+    #[derive(Debug)]
+    struct Rectangle {
+        width: u32,
+        height: u32,
+    }
+
+    let rect1 = Rectangle {
+        width: 30,
+        height: 50,
+    };
+
+    fn area(r: &Rectangle) -> u32 {
+        r.width * r.height 
+    }
+
+    println!(
+        "The area of the rectangle is {} square pixels.",
+        area(&rect1)
+    );
+
+    //originally our Rectangle struct is not printable directly with println, 
+    //but we can use the debug trait to make it printable
+    println!("rect1 is {:?}", rect1);
 }
