@@ -60,21 +60,42 @@ fn example_program_structs() {
         height: u32,
     }
 
+    impl Rectangle {
+        fn area(&self) -> u32 {
+            self.width * self.height
+        }
+
+        fn can_hold(&self, other: &Rectangle) -> bool {
+            self.width > other.width && self.height > other.height
+        }
+    }
+
     let rect1 = Rectangle {
         width: 30,
         height: 50,
     };
 
+    
     fn area(r: &Rectangle) -> u32 {
         r.width * r.height 
     }
 
+    //instead of writing functions for rectangle inside areas that have no relation to it,
+    //we can use method syntax instead as so: rectangle.area by using a impl block for rectangle.
     println!(
         "The area of the rectangle is {} square pixels.",
-        area(&rect1)
+        //area(&rect1) //non method syntax
+        rect1.area()
     );
 
     //originally our Rectangle struct is not printable directly with println, 
     //but we can use the debug trait to make it printable
     println!("rect1 is {:?}", rect1);
+
+    let rect2 = Rectangle {
+        width: 10,
+        height: 40,
+    };
+
+    println!("rect1 can hold rect2? {}", rect1.can_hold(&rect2));
 }
