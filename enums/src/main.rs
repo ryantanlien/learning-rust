@@ -107,3 +107,18 @@ fn match_example() {
 
     value_in_cents(Coin::Quarter(UsState::Alabama));
 }
+
+//The if let syntax lets us combine if and let into a less verbose way to handle valeus that
+//mtach one pattern while ignoring the rest.
+fn if_let_syntax() {
+    //using a match statement is verbose if there is only one pattern to match
+    let config_max = Some(3u8);
+    match config_max {
+        Some(max) => println!("The maximum is configured to be {}", max);
+        _ => (),
+    }
+    //however with the if let statement, things are less verbose though you lose the exhaustive checking feature
+    if let Some(max) = config_max {
+        println!("The maximum is configured to be {}", max);
+    }
+} 
