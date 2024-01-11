@@ -13,6 +13,7 @@ fn main() {
     //enum message with function
     let m = Message::Write(String::from("hello"));
     m.call();
+    match_example();
 }
 
 fn route(ip_kind: IpAddrKind) {}
@@ -75,3 +76,34 @@ impl Message {
 //this way, we will never have a case where a null reference craaashes the program,
 //as all nothing values must be explicitly handled
 
+fn match_example() {
+    #[derive(Debug)]
+    enum UsState { 
+        Alabama,
+        Alaska
+    }
+
+    //Using nested structure in enums for examples of patterns that bind to values
+    enum Coin {
+        Penny,
+        Nickel,
+        Dime,
+        Quarter(UsState)
+    }
+
+    fn value_in_cents(coin: Coin) -> u8 {
+        match coin {
+            Coin::Penny => 1,
+            Coin::Nickel => 5,
+            Coin::Dime => 10,
+            //add a variable called state to the pattern in the match statement that matches the values 
+            // of the variant Coin::Quarter
+            Coin::Quarter(state) => {
+                println!("State quarter from {:?}!", state);
+                25
+            }
+        }
+    }
+
+    value_in_cents(Coin::Quarter(UsState::Alabama));
+}
