@@ -19,6 +19,23 @@ Package conventions:
 
 ***/
 
+
+//For more info about modules and how they are structured, reference modules_cheatsheet.md
+
+//Lets create a few modules and packages to model a backyard
+use crate::garden::vegetables::Asparagus;
+
+pub mod garden;
+
 fn main() {
-    println!("Hello, world!");
+    let plant = Asparagus {};
+    println!("I'm growing {:?}!", plant);
 }
+
+/*** The purpose of modules
+Modules let us organize code within a crate for readability and easy reuse. Modules also allow us
+to control the privacy of items, because code within a module is private by default.
+
+Private items are internal implementation details not available for outside use. We can choose to make modules
+and items within them public, which exposes them to allow external code to use and depend on them.
+***/
